@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getMusicRecommendations } from "@/lib/api";
 
 export default function Home() {
@@ -9,39 +9,50 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchRecommendations() {
-      setLoading(true);
-      setError(null);
+  async function fetchRecommendations() {
+    if (!searchQuery.trim()) return; // Prevent empty searches
+    setLoading(true);
+    setError(null);
 
-      try {
-        const data = await getMusicRecommendations(searchQuery);
-        setRecommendations(data.artists || []);
-      } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : String(err));
-      } finally {
-        setLoading(false);
-      }
+    try {
+      const data = await getMusicRecommendations(searchQuery);
+      setRecommendations(data.artists || []);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
     }
-    fetchRecommendations();
-  }, [searchQuery]);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8">
       <h1 className="text-2xl font-bold mb-4">Music Recommendations</h1>
-      
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="border p-2 mb-4 w-80"
-        placeholder="Search for an artist..."
-      />
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      {/* Search Box */}
+      <div className="flex flex-col items-center gap-2">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border p-2 w-80"
+          placeholder="Search for an artist..."
+        />
 
-      <ul className="list-disc text-left">
+        {/* Search Button */}
+        <button
+          onClick={fetchRecommendations}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+        >
+          Search
+        </button>
+      </div>
+
+      {/* Loading and Error Messages */}
+      {loading && <p className="mt-4">Loading...</p>}
+      {error && <p className="mt-4 text-red-500">Error: {error}</p>}
+
+      {/* Recommendations List */}
+      <ul className="list-disc text-left mt-4">
         {recommendations.length > 0 ? (
           recommendations.map((artist, index) => (
             <li key={index} className="text-lg">{artist}</li>
