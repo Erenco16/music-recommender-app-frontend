@@ -17,13 +17,12 @@ export default function Home() {
       try {
         const data = await getMusicRecommendations(searchQuery);
         setRecommendations(data.artists || []);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
       }
     }
-
     fetchRecommendations();
   }, [searchQuery]);
 
