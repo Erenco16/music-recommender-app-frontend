@@ -1,66 +1,63 @@
 "use client";
 
-import { useState } from "react";
-import { getMusicRecommendations } from "@/lib/api";
+import { useEffect, useState } from "react";
+import "./css/home.css";
 
-export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("Metallica"); // Default search
-  const [recommendations, setRecommendations] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  async function fetchRecommendations() {
-    if (!searchQuery.trim()) return; // Prevent empty searches
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await getMusicRecommendations(searchQuery);
-      setRecommendations(data.artists || []);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
+const Home = () => {
+  const generateRandomString = (length: number): string => {
+    let text = "";
+    const possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-  }
+    return text;
+  };
+
+  const [spotifyAuthUrl, setSpotifyAuthUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Ensure this runs only on the client
+    window.localStorage.setItem("token", "");
+
+    // Fetch environment variables in useEffect (client-side)
+    const client_id = process.env.NEXT_PUBLIC_REACT_APP_SPOTIFY_CLIENT_ID;
+    const redirect_uri = process.env.NEXT_PUBLIC_REACT_APP_SPOTIFY_REDIRECT_URI;
+    if (!client_id || !redirect_uri) {
+      console.log("Missing Spotify environment variables");
+      return;
+    }
+
+    const auth_endpoint = "https://accounts.spotify.com/authorize";
+    const state = generateRandomString(16);
+    const scope = "user-read-private user-read-email user-top-read user-follow-read";
+    const response_type = "token";
+
+    const url =
+      `${auth_endpoint}?` +
+      `client_id=${client_id}` +
+      `&redirect_uri=${redirect_uri}` +
+      `&state=${state}` +
+      `&response_type=${response_type}` +
+      `&scope=${scope}`;
+
+    console.log(`Redirect URL: ${redirect_uri}`);
+    setSpotifyAuthUrl(url);
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-4">Music Recommendations</h1>
-
-      {/* Search Box */}
-      <div className="flex flex-col items-center gap-2">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border p-2 w-80"
-          placeholder="Search for an artist..."
-        />
-
-        {/* Search Button */}
-        <button
-          onClick={fetchRecommendations}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-        >
-          Search
-        </button>
-      </div>
-
-      {/* Loading and Error Messages */}
-      {loading && <p className="mt-4">Loading...</p>}
-      {error && <p className="mt-4 text-red-500">Error: {error}</p>}
-
-      {/* Recommendations List */}
-      <ul className="list-disc text-left mt-4">
-        {recommendations.length > 0 ? (
-          recommendations.map((artist, index) => (
-            <li key={index} className="text-lg">{artist}</li>
-          ))
-        ) : (
-          !loading && <p>No recommendations found.</p>
+      <div className="main-container">
+        <h1>Display your artists!</h1>
+        <h2>
+          In order to see your artists, you need to click the button below.
+        </h2>
+        {spotifyAuthUrl && (
+          <a href={spotifyAuthUrl}>
+            <button className="spotify-btn">Log into Spotify</button>
+          </a>
         )}
-      </ul>
-    </div>
+      </div>
   );
-}
+};
+
+export default Home;
