@@ -1,4 +1,6 @@
 "use client";
+// forces static export for the /calllback route
+export const dynamic = "force-static"
 
 import { useState, useEffect } from "react";
 import { getMusicRecommendations, getUnfollowedArtists, getGenreRecommendations } from "@/lib/api";
@@ -12,24 +14,40 @@ export default function Callback() {
   const router = useRouter();
 
   useEffect(() => {
-    // Extract the access token from the URL
     const hash = window.location.hash;
     const params = new URLSearchParams(hash.substring(1));
     const accessToken = params.get("access_token");
+    const expiresIn = params.get("expires_in");
 
-    if (accessToken) {
-      // Store the access token in local storage or state
+    // If we receive a new token, store it
+    if (accessToken && expiresIn) {
+      const expirationTime = Date.now() + parseInt(expiresIn) * 1000;
+
       localStorage.setItem("spotify_access_token", accessToken);
+      localStorage.setItem("spotify_token_expiration", expirationTime.toString());
 
-      // Remove the access token and other parameters from the URL
-      router.replace("/callback");
+      // Remove hash from the URL without refreshing the page
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Check if the stored token is expired
+    const storedToken = localStorage.getItem("spotify_access_token");
+    const storedExpiration = localStorage.getItem("spotify_token_expiration");
+
+    if (!storedToken || !storedExpiration || Date.now() > parseInt(storedExpiration)) {
+      // Token is missing or expired -> Redirect to login page
+      localStorage.removeItem("spotify_access_token");
+      localStorage.removeItem("spotify_token_expiration");
+      router.replace("/");
     }
   }, [router]);
+  
 /* eslint-disable */
 
   async function recommendBasedOnGenre() {
     try {
       const unfollowedArtistData = await getUnfollowedArtists();
+      console.log("Unfollowed Artist Data:", unfollowedArtistData);
       const genreRecommendations = await getGenreRecommendations(unfollowedArtistData);
       setRecommendations(genreRecommendations.artists || []);
       console.log("Genre Recommendations:", recommendations);
@@ -40,6 +58,8 @@ export default function Callback() {
 /* eslint-enable */
 
   async function fetchRecommendations() {
+    console.log("Fetching recommendations...");
+    recommendBasedOnGenre();
     if (!searchQuery.trim()) return; // Prevent empty searches
     setLoading(true);
     setError(null);

@@ -7,12 +7,13 @@ export async function getMusicRecommendations(searchQuery: string) {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export async function getGenreRecommendations(genreData: any) {
   return await fetchWithAuth(`/recommend?genre`, {
-    method: "POST",
-    body: JSON.stringify(genreData),
+    method: "POST", // or GET, depending on your API
+    credentials: "include", // Ensures cookies/authorization headers are sent
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
+      "Authorization": `Bearer ${localStorage.getItem("spotify_access_token")}`, // Replace with actual token
     },
+    body: JSON.stringify(genreData) // Adjust request body as needed
   });
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

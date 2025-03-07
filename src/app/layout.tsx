@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Music Recommender Enginer",
+  title: "Music Recommender Engine",
   description: "Get your  music recommendations!",
 };
 

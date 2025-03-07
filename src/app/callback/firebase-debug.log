@@ -1,0 +1,77 @@
+[debug] [2025-03-05T21:47:03.435Z] ----------------------------------------------------------------------
+[debug] [2025-03-05T21:47:03.439Z] Command:       /opt/homebrew/Cellar/node/23.6.0/bin/node /opt/homebrew/bin/firebase deploy --force
+[debug] [2025-03-05T21:47:03.439Z] CLI Version:   13.32.0
+[debug] [2025-03-05T21:47:03.439Z] Platform:      darwin
+[debug] [2025-03-05T21:47:03.439Z] Node Version:  v23.6.0
+[debug] [2025-03-05T21:47:03.439Z] Time:          Wed Mar 05 2025 21:47:03 GMT+0000 (Greenwich Mean Time)
+[debug] [2025-03-05T21:47:03.439Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-03-05T21:47:03.538Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-03-05T21:47:03.538Z] > authorizing via signed-in user (erenbasaran2002@gmail.com)
+[debug] [2025-03-05T21:47:03.538Z] [iam] checking project recommend-music-46f57 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-03-05T21:47:03.539Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:03.539Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:03.539Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57:testIamPermissions [none]
+[debug] [2025-03-05T21:47:03.539Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57:testIamPermissions x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:03.539Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-03-05T21:47:04.048Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57:testIamPermissions 200
+[debug] [2025-03-05T21:47:04.049Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-03-05T21:47:04.049Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:04.049Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:04.049Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/recommend-music-46f57/serviceAccounts/recommend-music-46f57@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-03-05T21:47:04.049Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/recommend-music-46f57/serviceAccounts/recommend-music-46f57@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-05T21:47:04.833Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/recommend-music-46f57/serviceAccounts/recommend-music-46f57@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-03-05T21:47:04.833Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/recommend-music-46f57/serviceAccounts/recommend-music-46f57@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-05T21:47:04.834Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:04.834Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:04.834Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/recommend-music-46f57 [none]
+[debug] [2025-03-05T21:47:05.399Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/recommend-music-46f57 200
+[debug] [2025-03-05T21:47:05.399Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/recommend-music-46f57 {"projectId":"recommend-music-46f57","projectNumber":"165194274008","displayName":"recommend-music","name":"projects/recommend-music-46f57","resources":{"hostingSite":"recommend-music-46f57"},"state":"ACTIVE","etag":"1_de426270-d432-46fa-aea0-8d76b1019c03"}
+[info] 
+[info] === Deploying to 'recommend-music-46f57'...
+[info] 
+[info] i  deploying functions, hosting 
+[debug] [2025-03-05T21:47:05.406Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.406Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.406Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57 [none]
+[debug] [2025-03-05T21:47:05.694Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57 200
+[debug] [2025-03-05T21:47:05.694Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/recommend-music-46f57 {"projectNumber":"165194274008","projectId":"recommend-music-46f57","lifecycleState":"ACTIVE","name":"recommend-music","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-03-02T13:13:09.326700Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-03-05T21:47:05.695Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.695Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.695Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.695Z] Checked if tokens are valid: true, expires at: 1741213428745
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-03-05T21:47:05.696Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.696Z] Checked if tokens are valid: true, expires at: 1741213428745
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-03-05T21:47:05.696Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.696Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:05.697Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-03-05T21:47:05.697Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:05.698Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-03-05T21:47:05.698Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:05.699Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com [none]
+[debug] [2025-03-05T21:47:05.699Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:05.699Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com [none]
+[debug] [2025-03-05T21:47:05.699Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:06.800Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/runtimeconfig.googleapis.com 200
+[debug] [2025-03-05T21:47:06.800Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-03-05T21:47:06.812Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudfunctions.googleapis.com 200
+[debug] [2025-03-05T21:47:06.812Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-03-05T21:47:06.841Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com 200
+[debug] [2025-03-05T21:47:06.841Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com [omitted]
+[warn] ⚠  artifactregistry: missing required API artifactregistry.googleapis.com. Enabling now... 
+[debug] [2025-03-05T21:47:06.841Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:06.841Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:06.841Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com:enable [none]
+[debug] [2025-03-05T21:47:06.841Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/artifactregistry.googleapis.com:enable x-goog-quota-user=projects/recommend-music-46f57
+[debug] [2025-03-05T21:47:06.849Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com 200
+[debug] [2025-03-05T21:47:06.849Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com [omitted]
+[warn] ⚠  functions: missing required API cloudbuild.googleapis.com. Enabling now... 
+[debug] [2025-03-05T21:47:06.849Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:06.849Z] Checked if tokens are valid: true, expires at: 1741213428745
+[debug] [2025-03-05T21:47:06.849Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com:enable [none]
+[debug] [2025-03-05T21:47:06.849Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/recommend-music-46f57/services/cloudbuild.googleapis.com:enable x-goog-quota-user=projects/recommend-music-46f57
