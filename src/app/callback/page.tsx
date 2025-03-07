@@ -17,10 +17,28 @@ export default function Callback() {
     const hash = window.location.hash;
     const params = new URLSearchParams(hash.substring(1));
     const accessToken = params.get("access_token");
-  
-    if (accessToken && !localStorage.getItem("spotify_access_token")) {
+    const expiresIn = params.get("expires_in");
+
+    // If we receive a new token, store it
+    if (accessToken && expiresIn) {
+      const expirationTime = Date.now() + parseInt(expiresIn) * 1000;
+
       localStorage.setItem("spotify_access_token", accessToken);
-      router.replace("/"); // Redirect to home or another page
+      localStorage.setItem("spotify_token_expiration", expirationTime.toString());
+
+      // Remove hash from the URL without refreshing the page
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Check if the stored token is expired
+    const storedToken = localStorage.getItem("spotify_access_token");
+    const storedExpiration = localStorage.getItem("spotify_token_expiration");
+
+    if (!storedToken || !storedExpiration || Date.now() > parseInt(storedExpiration)) {
+      // Token is missing or expired -> Redirect to login page
+      localStorage.removeItem("spotify_access_token");
+      localStorage.removeItem("spotify_token_expiration");
+      router.replace("/");
     }
   }, [router]);
   
@@ -29,6 +47,7 @@ export default function Callback() {
   async function recommendBasedOnGenre() {
     try {
       const unfollowedArtistData = await getUnfollowedArtists();
+      console.log("Unfollowed Artist Data:", unfollowedArtistData);
       const genreRecommendations = await getGenreRecommendations(unfollowedArtistData);
       setRecommendations(genreRecommendations.artists || []);
       console.log("Genre Recommendations:", recommendations);
