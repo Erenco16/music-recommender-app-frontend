@@ -1,5 +1,5 @@
 // src/lib/auth.ts
-export const API_URL = "https://st7zxdu7ti.execute-api.eu-north-1.amazonaws.com";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 export const SPOTIFY_API_URL = "https://api.spotify.com";
 export const COGNITO_TOKEN_URL = process.env.NEXT_PUBLIC_COGNITO_TOKEN_URL!;
 export const CLIENT_ID = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!;
@@ -42,11 +42,11 @@ export async function fetchWithAuth(endpoint: string, options: RequestInit = {})
 
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers: {
-      ...(options.headers ?? {}),
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    // headers: {
+    //   ...(options.headers ?? {}),
+    //   Authorization: `Bearer ${token}`,
+    //   "Content-Type": "application/json",
+    // },
   });
 
   if (!res.ok) {
