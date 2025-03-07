@@ -1,12 +1,16 @@
 {
   "hosting": {
+    "site": "recommend-music-46f57",
     "public": "out",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+       "source": "/callback/**",
+        "destination": "/callback/index.html"
       }
     ]
+  },
+  "functions": {
+    "source": "./functions"
   }
 }
