@@ -9,10 +9,10 @@ export async function getGenreRecommendations(genreData: any) {
   return await fetchWithAuth(`/recommend?genre`, {
     method: "POST", // or GET, depending on your API
     credentials: "include", // Ensures cookies/authorization headers are sent
-    // headers: {
-    //   "Content-Type": "application/json",
-    //   "Authorization": `Bearer ${localStorage.getItem("spotify_access_token")}`, // Replace with actual token
-    // },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("spotify_access_token")}`, // Replace with actual token
+    },
     body: JSON.stringify(genreData) // Adjust request body as needed
   });
 }

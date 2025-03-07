@@ -42,11 +42,11 @@ export async function fetchWithAuth(endpoint: string, options: RequestInit = {})
 
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    // headers: {
-    //   ...(options.headers ?? {}),
-    //   Authorization: `Bearer ${token}`,
-    //   "Content-Type": "application/json",
-    // },
+    headers: {
+      ...(options.headers ?? {}),
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
 
   if (!res.ok) {
