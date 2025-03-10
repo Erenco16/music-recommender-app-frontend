@@ -40,6 +40,9 @@ async function getSpotifyAccessToken() {
 export async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const token = await getAccessToken();
 
+  console.log("Fetching API:", `${API_URL}${endpoint}`);
+  console.log("Options:", JSON.stringify(options, null, 2));
+
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
@@ -49,12 +52,24 @@ export async function fetchWithAuth(endpoint: string, options: RequestInit = {})
     },
   });
 
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status}`);
+  console.log("Raw Response Object:", res);
+
+  // Ensure response is a valid object before parsing JSON
+  if (!res || typeof res.json !== "function") {
+    console.error("Invalid response format detected:", res);
+    throw new Error("Invalid response format from fetchWithAuth");
   }
 
-  return res.json();
+  const jsonData = await res.json();
+  console.log("Parsed JSON Data:", jsonData);
+
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status} - ${jsonData.message || "Unknown error"}`);
+  }
+
+  return jsonData;
 }
+
 
 export async function fetchFromSpotify(endpoint: string, options: RequestInit = {}) {
   const token = await getSpotifyAccessToken();
