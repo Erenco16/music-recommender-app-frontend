@@ -39,5 +39,5 @@ export async function getGenreRecommendations(genreData: any) {
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function getUnfollowedArtists() {
-  return await fetchFromSpotify("/v1/me/following?type=artist");
+  return await fetchFromSpotify("/v1/me/following?type=artist&limit=50");
 }

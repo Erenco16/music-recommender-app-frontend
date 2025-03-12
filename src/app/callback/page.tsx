@@ -4,14 +4,20 @@ export const dynamic = "force-static";
 
 import { useState, useEffect } from "react";
 import { getMusicRecommendations, getUnfollowedArtists, getGenreRecommendations } from "@/lib/api";
+import  Header  from "@/components/Header";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { ClipLoader } from "react-spinners"; // Cool spinner
 
 export default function Callback() {
   const [searchQuery, setSearchQuery] = useState("Metallica");
   const [recommendations, setRecommendations] = useState<string[]>([]);
+  const [matchedArtist, setMatchedArtist] = useState<string | null>(null);
   const [genreRecommendations, setGenreRecommendations] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [genreError, setGenreError] = useState<string | null>(null);
+  const [artistError, setArtistError] = useState<string | null>(null);
+  const [artistLoading, setArtistLoading] = useState<boolean>(false);
+  const [genreLoading, setGenreLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,109 +43,141 @@ export default function Callback() {
     }
   }, [router]);
 
-  /* eslint-disable */
   async function recommendBasedOnGenre() {
     try {
-      setLoading(true);
-      setError(null);
+      setGenreLoading(true);
+      setGenreError(null);
       const unfollowedArtistData = await getUnfollowedArtists();
-      console.log("Unfollowed Artist Data:", unfollowedArtistData);
-
       const genreData = await getGenreRecommendations(unfollowedArtistData);
-      const { matchedGenres, recommendedArtists } = await getGenreRecommendations(unfollowedArtistData);
-      console.log("Matched Genres:", matchedGenres);
-      console.log("Recommended Artists:", recommendedArtists);
-      console.log("Genre Recommendations:", genreData);
-      if (recommendedArtists) {
-        setGenreRecommendations(recommendedArtists.slice(0, 10)); // Only 10 artists
-      } else {
-        setGenreRecommendations([]);
-      }
+      const { recommendedArtists } = genreData;
+
+      setGenreRecommendations(recommendedArtists.slice(0, 10));
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err));
+      setGenreError(err instanceof Error ? err.message : String(err));
     } finally {
-      setLoading(false);
+      setGenreLoading(false);
     }
   }
-  /* eslint-enable */
 
   async function fetchRecommendations() {
     if (!searchQuery.trim()) return;
-    setLoading(true);
-    setError(null);
+    setArtistLoading(true);
+    setArtistError(null);
 
     try {
       const data = await getMusicRecommendations(searchQuery);
       setRecommendations(data.artists || []);
+      setMatchedArtist(data.matched_artist || null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err));
+      setArtistError(err instanceof Error ? err.message : String(err));
     } finally {
-      setLoading(false);
+      setArtistLoading(false);
     }
   }
 
   return (
-<div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-8 gap-8">
-  {/* Left Side - Unfollowed Artist Recommendations */}
-  <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
-    <h2 className="text-xl font-semibold mb-4 text-center">Recommendations from Unfollowed Artists</h2>
-    <button
-      onClick={recommendBasedOnGenre}
-      className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition"
-    >
-      Get me recommendations from artists I don’t follow
-    </button>
+    <div>
+      <Header />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="flex flex-col md:flex-row items-center justify-center min-h-screen p-8 gap-8">
+      {/* Left Side - Unfollowed Artist Recommendations */}
+      <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
+        <h2 className="text-xl font-semibold mb-4 text-center">Recommendations from Unfollowed Artists</h2>
+        <button
+          onClick={recommendBasedOnGenre}
+          className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition"
+        >
+          Get me recommendations from artists I don’t follow
+        </button>
 
-    {loading && <p className="mt-4">Loading...</p>}
-    {error && <p className="mt-4 text-red-500">Error: {error}</p>}
+        {genreLoading ? (
+          <ClipLoader color="#10b981" loading={genreLoading} size={50} className="mt-4" />
+        ) : genreError ? (
+          <p className="mt-4 text-red-500">Error: {genreError}</p>
+        ) : (
+          <ul className="list-disc text-left mt-4">
+            {genreRecommendations.length > 0 ? (
+              genreRecommendations.map((artist, index) => (
+                <motion.li
+                  key={index}
+                  className="text-lg"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  {artist}
+                </motion.li>
+              ))
+            ) : (
+              <p>No genre-based recommendations found.</p>
+            )}
+          </ul>
+        )}
+      </div>
 
-    <ul className="list-disc text-left mt-4">
-      {genreRecommendations.length > 0 ? (
-        genreRecommendations.slice(0, 10).map((artist, index) => (
-          <li key={index} className="text-lg">{artist}</li>
-        ))
-      ) : (
-        !loading && <p>No genre-based recommendations found.</p>
-      )}
-    </ul>
-  </div>
+      {/* Separator */}
+      <div className="w-full md:w-[2px] h-[2px] md:h-full bg-gray-300"></div>
 
-  {/* Separator (Vertical for large screens, Horizontal for small screens) */}
-  <div className="w-full md:w-[2px] h-[2px] md:h-full bg-gray-300"></div>
+      {/* Right Side - Search-Based Recommendations */}
+      <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
+        <h2 className="text-xl font-semibold mb-4 text-center">Search for Music Recommendations</h2>
 
-  {/* Right Side - Search-Based Recommendations */}
-  <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
-    <h2 className="text-xl font-semibold mb-4 text-center">Search for Music Recommendations</h2>
-    
-    <div className="flex flex-col items-center gap-2">
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="border p-2 w-80"
-        placeholder="Search for an artist..."
-      />
-      <button
-        onClick={fetchRecommendations}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-      >
-        Search
-      </button>
+        <div className="flex flex-col items-center gap-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border p-2 w-80"
+            placeholder="Search for an artist..."
+          />
+          <button
+            onClick={fetchRecommendations}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+          >
+            Search
+          </button>
+        </div>
+
+        {/* Matched Artist Display */}
+        {matchedArtist && (
+          <motion.p
+            className="mt-4 text-lg font-semibold text-green-600"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Matched Artist: {matchedArtist}
+          </motion.p>
+        )}
+
+        {artistLoading ? (
+          <ClipLoader color="#3b82f6" loading={artistLoading} size={50} className="mt-4" />
+        ) : artistError ? (
+          <p className="mt-4 text-red-500">Error: {artistError}</p>
+        ) : (
+          <ul className="list-disc text-left mt-4">
+            {recommendations.length > 0 ? (
+              recommendations.map((artist, index) => (
+                <motion.li
+                  key={index}
+                  className="text-lg"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  {artist}
+                </motion.li>
+              ))
+            ) : (
+              <p>No search results found.</p>
+            )}
+          </ul>
+        )}
+      </div>
+    </motion.div>
     </div>
-
-    {loading && <p className="mt-4">Loading...</p>}
-    {error && <p className="mt-4 text-red-500">Error: {error}</p>}
-
-    <ul className="list-disc text-left mt-4">
-      {recommendations.length > 0 ? (
-        recommendations.map((artist, index) => (
-          <li key={index} className="text-lg">{artist}</li>
-        ))
-      ) : (
-        !loading && <p>No search results found.</p>
-      )}
-    </ul>
-  </div>
-</div>
   );
 }
