@@ -40,7 +40,7 @@ const Home = () => {
     }
 
     const auth_endpoint = "https://accounts.spotify.com/authorize";
-    const state = Math.random().toString(36).substring(2, 15); // FIXED: Generate state only on client
+    const state = Math.random().toString(36).substring(2, 15); // Generate state only on client
     const scope = "user-read-private user-read-email user-top-read user-follow-read";
     const response_type = "token";
 
@@ -48,17 +48,19 @@ const Home = () => {
     setSpotifyAuthUrl(url);
   }, [router]);
 
-  if (!isClient) return null; // FIXED: Prevent server-rendered mismatch
+  if (!isClient) return null; // Prevent server-rendered mismatch
 
   return (
     <div className="main-container">
-      <h1>Display your artists!</h1>
-      <h2>In order to see your artists, you need to click the button below.</h2>
-      {spotifyAuthUrl && (
-        <a href={spotifyAuthUrl}>
-          <button className="spotify-btn">Log into Spotify</button>
-        </a>
-      )}
+      <div className="glass-box">
+        <h1>Display your artists!</h1>
+        <h2>In order to see your artists, you need to click the button below.</h2>
+        {spotifyAuthUrl && (
+          <a href={spotifyAuthUrl}>
+            <button className="spotify-btn">Log into Spotify</button>
+          </a>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,12 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+//@ts-ignore
+import { AnimatedBackground } from "animated-backgrounds";
+/* eslint-enable @typescript-eslint/ban-ts-comment */
+
 
 
 const geistSans = Geist({
@@ -13,11 +19,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Music Recommender Engine",
-  description: "Get your  music recommendations!",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,9 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <title>Music Recommender Engine</title>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AnimatedBackground animationName="starryNdnaHelixight" blendMode="darken" />
         {children}
       </body>
     </html>

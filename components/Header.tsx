@@ -6,8 +6,8 @@ import { FiLogOut } from "react-icons/fi";
 import { HiMenu, HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Apply Montserrat Font
-const customFont = "font-[Montserrat]";
+// Apply Inter font
+const customFont = "font-[Inter]"; 
 
 export default function Header() {
   const router = useRouter();
@@ -21,13 +21,13 @@ export default function Header() {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -50 }} // Fade in from top
+      initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`w-full bg-gray-900 text-white p-4 flex justify-between items-center shadow-md relative fixed top-0 left-0 z-50 ${customFont}`}
       style={{
-        background: "linear-gradient(to bottom, #1a1a1a, #0d0d0d)", // Black to dark gray
-        borderBottom: "2px solid #0d0d0d", // Match background
+        background: "linear-gradient(to bottom, #1a1a1a, #0d0d0d)",
+        borderBottom: "2px solid #0d0d0d",
       }}
     >
       {/* Logo */}
