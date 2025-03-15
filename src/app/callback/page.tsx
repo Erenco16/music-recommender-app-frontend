@@ -8,6 +8,7 @@ import  Header  from "@/components/Header";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ClipLoader } from "react-spinners"; // Cool spinner
+import '../css/callback.css';
 
 export default function Callback() {
   const [searchQuery, setSearchQuery] = useState("Metallica");
@@ -77,14 +78,15 @@ export default function Callback() {
 
   return (
     <div>
-      <Header />
+    <Header />
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="flex flex-col md:flex-row items-center justify-center min-h-screen p-8 gap-8">
+      className="flex flex-col md:flex-row items-center justify-center min-h-screen p-8 gap-8"
+    >
       {/* Left Side - Unfollowed Artist Recommendations */}
-      <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
+      <div className="glass-box">
         <h2 className="text-xl font-semibold mb-4 text-center">Recommendations from Unfollowed Artists</h2>
         <button
           onClick={recommendBasedOnGenre}
@@ -122,7 +124,7 @@ export default function Callback() {
       <div className="w-full md:w-[2px] h-[2px] md:h-full bg-gray-300"></div>
 
       {/* Right Side - Search-Based Recommendations */}
-      <div className="w-full md:w-1/2 p-6 flex flex-col items-center">
+      <div className="glass-box">
         <h2 className="text-xl font-semibold mb-4 text-center">Search for Music Recommendations</h2>
 
         <div className="flex flex-col items-center gap-2">
@@ -130,7 +132,7 @@ export default function Callback() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border p-2 w-80"
+            className="border p-2 w-80 rounded-md text-white"
             placeholder="Search for an artist..."
           />
           <button
@@ -178,6 +180,6 @@ export default function Callback() {
         )}
       </div>
     </motion.div>
-    </div>
+  </div>
   );
 }

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "animated-backgrounds": "^1.1.0",
     "dotenv": "^16.4.7",
     "firebase-admin": "^12.7.0",
     "firebase-function": "^1.4.121",
