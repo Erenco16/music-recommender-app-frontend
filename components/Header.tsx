@@ -6,8 +6,6 @@ import { FiLogOut } from "react-icons/fi";
 import { HiMenu, HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Apply Inter font
-const customFont = "font-[Inter]"; 
 
 export default function Header() {
   const router = useRouter();
@@ -24,7 +22,7 @@ export default function Header() {
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`w-full bg-gray-900 text-white p-4 flex justify-between items-center shadow-md relative fixed top-0 left-0 z-50 ${customFont}`}
+      className={`w-full bg-gray-900 text-white p-4 flex justify-between items-center shadow-md relative fixed top-0 left-0 z-50`}
       style={{
         background: "linear-gradient(to bottom, #1a1a1a, #0d0d0d)",
         borderBottom: "2px solid #0d0d0d",
@@ -32,7 +30,10 @@ export default function Header() {
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <h1 className="text-lg sm:text-xl font-bold tracking-wide">Music Recommender</h1>
+      <h3 className="text-xl sm:text-2xl font-bold tracking-wide bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+          <span className="font-bold">Music</span>
+          <span className="font-light">Recommender</span>
+        </h3>
       </div>
 
       {/* Desktop Logout Button */}
