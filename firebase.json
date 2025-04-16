@@ -3,9 +3,29 @@
     "site": "recommend-music-46f57",
     "public": "out",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "/_next/static/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      }
+    ],
     "rewrites": [
       {
-       "source": "/callback/**",
+        "source": "/callback/**",
         "destination": "/callback/index.html"
       }
     ]
