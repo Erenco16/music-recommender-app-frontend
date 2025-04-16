@@ -13,10 +13,6 @@ export async function getGenreRecommendations(genreData: any) {
     const data = await fetchWithAuth(`/recommend/genre`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("spotify_access_token")}`,
-      },
       body: JSON.stringify(genreData),
     });
 
