@@ -33,7 +33,7 @@ const Home = () => {
 
     // Fetch environment variables on the client
     const client_id = process.env.NEXT_PUBLIC_REACT_APP_SPOTIFY_CLIENT_ID;
-    const redirect_uri = process.env.NEXT_PUBLIC_REACT_APP_SPOTIFY_REDIRECT_URI_LOCAL;
+    const redirect_uri = process.env.NEXT_PUBLIC_REACT_APP_SPOTIFY_REDIRECT_URI;
     if (!client_id || !redirect_uri) {
       console.log("Missing Spotify environment variables");
       return;
